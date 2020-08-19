@@ -2,10 +2,10 @@ package dag
 
 type Vertex interface {
 	ID() string
-	GetSource(id string) Vertex
-	GetTarget(id string) Vertex
-	Sources() []Vertex
-	Targets() []Vertex
+	GetSourcesLength() int
+	GetTargetsLength() int
+	GetSources() []Vertex
+	GetTargets() []Vertex
 	AddSource(p Vertex) error
 	AddTarget(c Vertex) error
 	RemoveSource(id string) error

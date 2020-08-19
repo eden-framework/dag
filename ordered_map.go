@@ -27,6 +27,29 @@ func (m *OrderedMap) Put(key, val interface{}) {
 	m.data[key] = val
 }
 
+func (m *OrderedMap) Remove(key interface{}) bool {
+	m.lock.Lock()
+	defer m.lock.Unlock()
+
+	_, exist := m.data[key]
+	if !exist {
+		return false
+	}
+
+	delete(m.data, key)
+
+	var i int
+	var k interface{}
+	for i, k = range m.keys {
+		if k == key {
+			break
+		}
+	}
+	m.keys = append(m.keys[:i], m.keys[i+1:]...)
+
+	return true
+}
+
 func (m *OrderedMap) Get(key interface{}) (interface{}, bool) {
 	m.lock.RLock()
 	defer m.lock.RUnlock()
