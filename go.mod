@@ -1,4 +1,4 @@
-module github.com/profzone/dag
+module git.querycap.com/cloudchain/dag
 
 go 1.14
 
