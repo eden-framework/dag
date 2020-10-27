@@ -1,4 +1,4 @@
-module git.querycap.com/cloudchain/dag
+module github.com/eden-framework/dag
 
 go 1.14
 
