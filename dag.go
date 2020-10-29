@@ -193,7 +193,7 @@ func (d *DAG) Size() int {
 }
 
 // 拓扑排序
-func (d *DAG) TopologicalSort() (list []Vertex, err error) {
+func (d *DAG) TopologicalSort() (list [][]Vertex, err error) {
 	// searching root vertex
 	var root Vertex
 	d.vertex.Walk(func(key, val interface{}) bool {
@@ -203,7 +203,7 @@ func (d *DAG) TopologicalSort() (list []Vertex, err error) {
 				return false
 			}
 			root = val.(Vertex)
-			list = append(list, root)
+			list = append(list, []Vertex{root})
 		}
 		return true
 	})
@@ -235,6 +235,7 @@ func (d *DAG) TopologicalSort() (list []Vertex, err error) {
 			break
 		}
 
+		levelVertex := make([]Vertex, 0)
 		for _, id := range rootVertices {
 			if !d.removeVertexRelation(id) {
 				err = vertexIDNotFoundErr(root.ID())
@@ -242,8 +243,9 @@ func (d *DAG) TopologicalSort() (list []Vertex, err error) {
 			}
 
 			v, _ := d.GetVertex(id)
-			list = append(list, v)
+			levelVertex = append(levelVertex, v)
 		}
+		list = append(list, levelVertex)
 	}
 
 	d.regenerateRelation()

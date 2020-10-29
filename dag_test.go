@@ -1,7 +1,6 @@
 package dag
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -101,8 +100,9 @@ func TestName(t *testing.T) {
 	vet1 := newMockVertex("1", "abc")
 	vet2 := newMockVertex("2", "def")
 	vet3 := newMockVertex("3", "ghi")
+	vet4 := newMockVertex("4", "cvbxvb")
 
-	err := dag.AddVertex(vet1, vet2, vet3)
+	err := dag.AddVertex(vet1, vet2, vet3, vet4)
 	if err != nil {
 		t.Error(err)
 	}
@@ -112,31 +112,26 @@ func TestName(t *testing.T) {
 		t.Error(err)
 	}
 
-	err = dag.AddEdge(vet2, vet3)
+	err = dag.AddEdge(vet1, vet3)
+	if err != nil {
+		t.Error(err)
+	}
+
+	err = dag.AddEdge(vet2, vet4)
+	if err != nil {
+		t.Error(err)
+	}
+
+	err = dag.AddEdge(vet3, vet4)
 	if err != nil {
 		t.Error(err)
 	}
 
 	list, err := dag.TopologicalSort()
 	if err != nil {
-		t.Fatal(err)
+		t.Error(err)
 	}
 
-	for _, v := range list {
-		fmt.Println(v.ID())
-	}
+	t.Log(list)
 
-	err = dag.RemoveEdge(vet2, vet3)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	list, err = dag.TopologicalSort()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	for _, v := range list {
-		fmt.Println(v.ID())
-	}
 }
